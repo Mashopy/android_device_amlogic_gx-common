@@ -25,8 +25,12 @@ endif
 TARGET_KERNEL_EXT_MODULE_ROOT := kernel/amlogic/kernel-modules
 TARGET_KERNEL_EXT_MODULES += \
     mali-driver/utgard \
-    media-pie \
+    media-pie
+
+ifneq ($(TARGET_HAS_TEE),false)
+TARGET_KERNEL_EXT_MODULES += \
     optee-pie
+endif
 
 TARGET_MODULE_ALIASES += \
     mali_kbase.ko:mali.ko
