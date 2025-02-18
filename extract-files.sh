@@ -77,7 +77,6 @@ function blob_fixup() {
              ;;
         vendor/lib/libOmxCore.so|vendor/lib/libOmxVideo.so|vendor/lib/libOmxBase.so|vendor/lib/hw/camera.amlogic.so|vendor/lib/hw/hwcomposer.amlogic.so)
             [ "$2" = "" ] && return 0
-             grep -q "libaml_symbols.so" "${2}" || "${PATCHELF}" --add-needed "libaml_symbols.so" "${2}"
              grep -q "libui_shim.so" "${2}" || "${PATCHELF}" --add-needed "libui_shim.so" "${2}"
              ;;
         vendor/lib/libOmxCoreSw.so)
