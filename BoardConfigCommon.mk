@@ -10,6 +10,7 @@ COMMON_PATH := device/amlogic/gx-common
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
 ## HIDL
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(COMMON_PATH)/vendor_framework_compatibility_matrix.xml
 DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
 
 ## Kernel
