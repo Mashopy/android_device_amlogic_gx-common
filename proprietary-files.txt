@@ -2,21 +2,20 @@
 ## are from kvim-userdebug 9 PPR1.180610.011 20211022 test-keys.
 
 # Audio
-product/lib/libamavutils.so
 vendor/etc/audio_effects.conf
 vendor/etc/init/init.hbg.remote.rc
 vendor/etc/remote.txt
-vendor/lib/hw/audio.primary.amlogic.so
-vendor/lib/libam_adp.so
-vendor/lib/libamadec.so
+vendor/lib/hw/audio.primary.amlogic.so;DISABLE_CHECKELF
+vendor/lib/libam_adp.so;DISABLE_CHECKELF
+vendor/lib/libamadec.so;DISABLE_CHECKELF
 vendor/lib/libamaudioutils.so
-vendor/lib/libamavutils.so
-vendor/lib/libamlaudiorc.so
+vendor/lib/libamavutils.so;DISABLE_CHECKELF
+vendor/lib/libamlaudiorc.so;DISABLE_CHECKELF
 vendor/lib/libdroidaudiospdif.so
 vendor/lib/libdtvad.so
 vendor/lib/libhbg.so
-vendor/lib/libhbgdecode.so
-vendor/lib/libicuuc_vendor.so
+vendor/lib/libhbgdecode.so;DISABLE_CHECKELF
+vendor/lib/libicuuc_vendor.so;DISABLE_CHECKELF
 vendor/lib/libms12api.so
 vendor/lib/libnano.so
 
@@ -29,12 +28,11 @@ vendor/lib/soundfx/libhpeqwrapper.so
 vendor/lib/soundfx/libms12dapwrapper.so
 vendor/lib/soundfx/libsrswrapper.so
 vendor/lib/soundfx/libtreblebasswrapper.so
-vendor/lib/soundfx/libvirtualsurround.so
+vendor/lib/soundfx/libvirtualsurround.so;DISABLE_CHECKELF
 vendor/lib/soundfx/libvirtualx.so
 
 # Camera
-#vendor/lib/libispaaa.so
-vendor/lib/hw/camera.amlogic.so
+vendor/lib/hw/camera.amlogic.so;DISABLE_CHECKELF
 
 # Dumpstate - from adt2-user 9 PTT5.190307.001 5360859 dev-keys
 vendor/bin/hw/android.hardware.dumpstate@1.0-service.droidlogic|354ef64d714a18f0a281b5c73ddbf2eb620b43ca
@@ -47,7 +45,7 @@ vendor/lib/hw/gatekeeper.amlogic.so
 vendor/lib/libamgralloc_ext.so
 
 # Hardware Composer
--vendor/lib/libge2d.so
+vendor/lib/libge2d.so;DISABLE_CHECKELF
 
 # HDMI-CEC
 vendor/bin/hdmicecd
@@ -65,9 +63,9 @@ vendor/lib/vendor.amlogic.hardware.miracast_hdcp2@1.0.so
 vendor/lib/vendor.amlogic.hardware.remotecontrol@1.0.so
 vendor/lib/vendor.amlogic.hardware.screencontrol@1.0.so
 vendor/lib/vendor.amlogic.hardware.systemcontrol@1.0.so
-vendor/lib/vendor.amlogic.hardware.systemcontrol@1.0.so:lib/vendor.amlogic.hardware.systemcontrol@1.0.so
+vendor/lib/vendor.amlogic.hardware.systemcontrol@1.0.so:lib/vendor.amlogic.hardware.systemcontrol@1.0.so;MODULE_SUFFIX=_system
 vendor/lib/vendor.amlogic.hardware.systemcontrol@1.1.so
-vendor/lib/vendor.amlogic.hardware.systemcontrol@1.1.so:lib/vendor.amlogic.hardware.systemcontrol@1.1.so
+vendor/lib/vendor.amlogic.hardware.systemcontrol@1.1.so:lib/vendor.amlogic.hardware.systemcontrol@1.1.so;MODULE_SUFFIX=_system
 vendor/lib/vendor.amlogic.hardware.tvserver@1.0.so
 
 # Java
@@ -80,33 +78,29 @@ vendor/lib/libdisplaysetting.so
 vendor/lib/libremotecontrol_jni.so
 vendor/lib/libremotecontrolserver.so
 vendor/lib/libsystemcontrol_jni.so
-vendor/lib/libsystemcontrol_jni.so:lib/libsystemcontrol_jni.so
+vendor/lib/libsystemcontrol_jni.so:lib/libsystemcontrol_jni.so;MODULE_SUFFIX=_system
 vendor/lib/libsystemcontrolclient.so
-vendor/lib/libsystemcontrolclient.so:lib/libsystemcontrolclient.so
+vendor/lib/libsystemcontrolclient.so:lib/libsystemcontrolclient.so;MODULE_SUFFIX=_system
 
 # Memtrack
 vendor/lib/hw/memtrack.amlogic.so
 
 # OMX
-#vendor/lib/libdolbyms12.so
-#vendor/lib/libms12dap.so
-#vendor/lib/libstagefright_soft_xaacdec.so
 vendor/lib/libHwAudio_dcvdec.so
 vendor/lib/libHwAudio_dtshd.so
 vendor/lib/libOmxAudio.so
 vendor/lib/libOmxBase.so
 vendor/lib/libOmxCore.so
 vendor/lib/libOmxCoreSw.so
-vendor/lib/libOmxVideo.so
+vendor/lib/libOmxVideo.so;DISABLE_CHECKELF
 vendor/lib/libdatachunkqueue_alt.so
-vendor/lib/libdra.so
+vendor/lib/libdra.so;DISABLE_CHECKELF
 vendor/lib/libfpscalculator_alt.so
 vendor/lib/libomx_av_core_alt.so
 vendor/lib/libomx_clock_utils_alt.so
 vendor/lib/libomx_framework_alt.so
 vendor/lib/libomx_timed_task_queue_alt.so
 vendor/lib/libomx_worker_peer_alt.so
-vendor/lib/libstagefright_soft_amsoftdec.so
 vendor/lib/libstagefrighthw.so
 vendor/lib/libthreadworker_alt.so
 
@@ -119,11 +113,11 @@ vendor/etc/seccomp_policy/mediaextractor.policy
 
 # System Control
 recovery/root/system/bin/systemcontrol_static|d14c0e72d2020af4b4121891edd7e35c54082d3c
-vendor/bin/systemcontrol
+vendor/bin/systemcontrol;DISABLE_CHECKELF
 vendor/etc/init/systemcontrol.rc
 vendor/lib/libfbc.so
-vendor/lib/liboptimization.so
-vendor/lib/libpqcontrol.so
+vendor/lib/liboptimization.so;FIX_SONAME
+vendor/lib/libpqcontrol.so;DISABLE_CHECKELF
 vendor/lib/libsystemcontrolservice.so
 
 # Thermal
@@ -132,7 +126,7 @@ vendor/lib/hw/thermal.amlogic.so
 # Widevine DRM
 vendor/bin/hw/android.hardware.drm@1.1-service.widevine
 vendor/etc/init/android.hardware.drm@1.1-service.widevine.rc
-vendor/lib/libwvhidl.so
+vendor/lib/libwvhidl.so;DISABLE_CHECKELF
 
 # Wi-Fi
 vendor/etc/wifi/p2p_supplicant_overlay.conf

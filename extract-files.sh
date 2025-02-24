@@ -14,8 +14,6 @@ if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
 
 ANDROID_ROOT="${MY_DIR}/../../.."
 
-export TARGET_ENABLE_CHECKELF=false
-
 HELPER="${ANDROID_ROOT}/tools/extract-utils/extract_utils.sh"
 if [ ! -f "${HELPER}" ]; then
     echo "Unable to find helper script at ${HELPER}"
@@ -69,37 +67,49 @@ function blob_fixup() {
      case "${1}" in
         vendor/etc/init/tee-supplicant.rc)
             [ "$2" = "" ] && return 0
-             sed -i s#/vendor/lib/#/vendor/lib/modules/#g "${2}"
-             ;;
+            sed -i s#/vendor/lib/#/vendor/lib/modules/#g "${2}"
+            ;;
         vendor/etc/wifi/wpa_supplicant_overlay.conf)
             [ "$2" = "" ] && return 0
-             echo "driver_param=use_p2p_group_interface=1">>"${2}"
-             ;;
+            echo "driver_param=use_p2p_group_interface=1">>"${2}"
+            ;;
         vendor/lib/libOmxCore.so|vendor/lib/libOmxVideo.so|vendor/lib/libOmxBase.so|vendor/lib/hw/camera.amlogic.so|vendor/lib/hw/hwcomposer.amlogic.so)
             [ "$2" = "" ] && return 0
-             grep -q "libui_shim.so" "${2}" || "${PATCHELF}" --add-needed "libui_shim.so" "${2}"
-             ;;
+            grep -q "libui_shim.so" "${2}" || "${PATCHELF}" --add-needed "libui_shim.so" "${2}"
+            ;;
         vendor/lib/libOmxCoreSw.so)
             [ "$2" = "" ] && return 0
-             grep -q "libstagefright_softomx.so" "${2}" || "${PATCHELF}" --add-needed "libstagefright_softomx.so" "${2}"
-             ;;
+            grep -q "libstagefright_softomx.so" "${2}" || "${PATCHELF}" --add-needed "libstagefright_softomx.so" "${2}"
+            ;;
         vendor/lib/hw/audio.primary.amlogic.so)
             [ "$2" = "" ] && return 0
-             "${PATCHELF}" --replace-needed "libutils.so" "libutils-v32.so" "${2}"
-             ;;
+            "${PATCHELF}" --replace-needed "libutils.so" "libutils-v32.so" "${2}"
+            ;;
         vendor/bin/systemcontrol)
             [ "$2" = "" ] && return 0
-             "${PATCHELF}" --replace-needed "libutils.so" "libutils-v32.so" "${2}"
-             ;;
+            "${PATCHELF}" --replace-needed "libhidlbase.so" "libhidlbase-v32.so" "${2}"
+            "${PATCHELF}" --replace-needed "libutils.so" "libutils-v32.so" "${2}"
+            ;;
         vendor/bin/hdmicecd)
             [ "$2" = "" ] && return 0
-             "${PATCHELF}" --replace-needed "libutils.so" "libutils-v32.so" "${2}"
-             ;;
+            "${PATCHELF}" --replace-needed "libutils.so" "libutils-v32.so" "${2}"
+            ;;
         vendor/lib*/libwvhidl.so)
             [ "$2" = "" ] && return 0
-            grep -q libcrypto_shim.so "${2}" || "${PATCHELF}" --add-needed "libcrypto_shim.so" "${2}"
+            grep -q "libcrypto_shim.so" "${2}" || "${PATCHELF}" --add-needed "libcrypto_shim.so" "${2}"
             ;;
-
+        lib/vendor.amlogic.hardware.droidvold@1.0.so|lib/vendor.amlogic.hardware.systemcontrol@1.0.so|lib/vendor.amlogic.hardware.systemcontrol@1.1.so|\
+        vendor/lib/vendor.amlogic.hardware.tvserver@1.0.so|vendor/lib/vendor.amlogic.hardware.droidvold@1.0.so|vendor/lib/vendor.amlogic.hardware.miracast_hdcp2@1.0.so|\
+        vendor/lib/vendor.amlogic.hardware.systemcontrol@1.0.so|vendor/lib/vendor.amlogic.hardware.systemcontrol@1.1.so|vendor/lib/vendor.amlogic.hardware.screencontrol@1.0.so|\
+        vendor/lib/vendor.amlogic.hardware.remotecontrol@1.0.so|vendor/lib/vendor.amlogic.hardware.hdmicec@1.0.so)
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --replace-needed "libhidlbase.so" "libhidlbase-v32.so" "${2}"
+            ;;
+        vendor/bin/hw/android.hardware.drm@1.1-service.widevine)
+            [ "$2" = ""] && return 0
+            "${PATCHELF}" --replace-needed "libhidltransport.so" "libhidlbase.so" "${2}"
+            "${PATCHELF}" --remove-needed "libhwbinder.so" "${2}"
+            ;;
         *)
             return 1
             ;;

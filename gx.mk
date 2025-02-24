@@ -13,8 +13,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml
 
 PRODUCT_PACKAGES += \
-    android.hardware.soundtrigger@2.1-impl \
-    libaudioroute.vendor
+    android.hardware.audio@6.0-impl \
+    android.hardware.audio.effect@6.0-impl \
+    android.hardware.soundtrigger@2.1-impl
 
 ## Bluetooth
 ifneq ($(BOARD_HAVE_BLUETOOTH),false)
@@ -26,12 +27,6 @@ endif
 ## Boot animation
 TARGET_BOOTANIMATION_HALF_RES := true
 
-## Camera
-PRODUCT_PACKAGES += \
-    libexif.vendor \
-    libjpeg.vendor \
-    libyuv.vendor
-
 ## Codecs
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/media/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles.xml \
@@ -39,22 +34,14 @@ PRODUCT_COPY_FILES += \
 ## DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.0-impl \
-    android.hardware.drm@1.0-service \
-    libcrypto_shim.vendor
-
-## dumpstate
-PRODUCT_PACKAGES += \
-    android.hardware.dumpstate@1.1.vendor
+    android.hardware.drm@1.0-service
 
 ## Graphics
 PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.composer@2.2-service \
     android.hardware.graphics.allocator@2.0-impl \
-    android.hardware.graphics.mapper@2.0-impl \
-    libdmabufheap.vendor \
-    libion.vendor \
-    libutilscallstack.vendor
+    android.hardware.graphics.mapper@2.0-impl
 
 PRODUCT_COPY_FILES +=  \
     frameworks/native/data/etc/android.software.opengles.deqp.level-2020-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.opengles.deqp.level.xml \
@@ -63,13 +50,6 @@ PRODUCT_COPY_FILES +=  \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/mesondisplay.cfg:$(TARGET_COPY_OUT_RECOVERY)/root/system/etc/mesondisplay.cfg \
     $(LOCAL_PATH)/configs/mesondisplay.cfg:$(TARGET_COPY_OUT_VENDOR)/etc/mesondisplay.cfg
-
-# HIDL
-PRODUCT_PACKAGES += \
-    libhidltransport \
-    libhidltransport.vendor \
-    libhwbinder \
-    libhwbinder.vendor
 
 # Init-Files
 PRODUCT_COPY_FILES += \
@@ -82,20 +62,18 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     fstab.amlogic
 
+## Kernel
+PRODUCT_ENABLE_UFFD_GC := false
+
 ## Keymaster
 PRODUCT_PACKAGES += \
     android.hardware.keymaster@3.0-service \
-    android.hardware.keymaster@3.0-impl \
-    libdumpstateutil.vendor
+    android.hardware.keymaster@3.0-impl
 
 ## Media firmware
 PRODUCT_COPY_FILES += \
     kernel/amlogic/kernel-modules/media-pie/firmware/h264_enc.bin:$(TARGET_COPY_OUT_VENDOR)/lib/firmware/video/h264_enc.bin \
     kernel/amlogic/kernel-modules/media-pie/firmware/video_ucode.bin:$(TARGET_COPY_OUT_VENDOR)/lib/firmware/video/video_ucode.bin
-
-## OMX
-PRODUCT_PACKAGES += \
-    libavservices_minijail_vendor
 
 ## Partitions
 $(call inherit-product, $(SRC_TARGET_DIR)/product/non_ab_device.mk)
@@ -109,33 +87,24 @@ PRODUCT_PACKAGES += \
     android.hardware.power@1.0-service \
     power.default
 
-## Protobuf
-PRODUCT_PACKAGES += \
-    libprotobuf-cpp-lite-vendorcompat
-
 ## Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
     bootable/deprecated-ota
 
-## SystemControl
-PRODUCT_PACKAGES += \
-    libsqlite.vendor
-
 ## Thermal
 PRODUCT_PACKAGES += \
     android.hardware.thermal@1.0-service \
-    android.hardware.thermal@1.0-impl \
-    libjsoncpp.vendor
+    android.hardware.thermal@1.0-impl
 
-# VNDK
+## VNDK
 PRODUCT_PACKAGES += \
-    libutils-v32
+    libprocessgroup.vendor \
+    libstagefright_softomx_plugin.vendor
 
-## Widevine DRM
-PRODUCT_PACKAGES += \
-    android.hardware.drm@1.1.vendor \
-    libprotobuf-cpp-lite-3.9.1-vendorcompat
+PRODUCT_COPY_FILES += \
+    system/core/libprocessgroup/profiles/cgroups_28.json:$(TARGET_COPY_OUT_VENDOR)/etc/cgroups.json \
+    system/core/libprocessgroup/profiles/task_profiles_28.json:$(TARGET_COPY_OUT_VENDOR)/etc/task_profiles.json
 
 ## Inherit from the main common tree product makefile
 $(call inherit-product, device/amlogic/common/amlogic.mk)
